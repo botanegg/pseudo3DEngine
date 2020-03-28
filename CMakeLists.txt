@@ -35,8 +35,8 @@ set(SOURCE_FILES
 		src/Idrawable.h
 		src/Point2D.cpp
 		src/Point2D.h
-		src/Poligon2D.cpp
-		src/Poligon2D.h
+		src/Polygon2D.cpp
+		src/Polygon2D.h
 		src/Circle2D.cpp
 		src/Circle2D.h
 		src/Menu.cpp

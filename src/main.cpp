@@ -5,7 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include "settings.h"
-#include "Poligon2D.h"
+#include "Polygon2D.h"
 #include "Circle2D.h"
 #include "Object2D.h"
 #include "World.h"
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 
     vector<Point2D> columnPositions = {{0,0}, {3,0}, {3,3}, {6,3}, {6,8}, {3,8}, {3,11}, {0,11}, {0,8}, {-3,8}, {-3,3}, {0,3}};
     vector<Circle2D> columns(12);
-    vector<Poligon2D> walls (12);
+    vector<Polygon2D> walls (12);
 
 	sf::Uint32 windowStyle = fullscreen ? sf::Style::Fullscreen : sf::Style::Default;
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pseudo3DEngine", windowStyle);
@@ -65,17 +65,17 @@ int main(int argc, char** argv)
 
     //wall4.makeMirror();
 
-    Poligon2D object1({{1, 1}, {2.05, 1}, {2, 2}}, {2.7, 5}, 1, INSTRUCTION_TEXTURE);
-    Poligon2D object2({{0, 0}, {1, 0}, {1, 1}, {0, 1}}, {-1.9, 6.7}, 1, FROZEN_TEXTURE);
-    Poligon2D object3({{1, 1}, {2, 2}, {1, 2}, {1, 2}}, {-0.79, 3.95});
-    Poligon2D object4({{0, 0}, {.1, 0}, {.1, .1}, {0, .1}}, {1.92, 6.18});
-    Poligon2D object5({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {1.84, 9});
-    Poligon2D object6({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {1.11, 7}, 0);
-    Poligon2D object7({{0, 0}, {.1, 0}, {.1, .1}, {0, .1}}, {1, 2}, 0);
+    Polygon2D object1({{1, 1}, {2.05, 1}, {2, 2}}, {2.7, 5}, 1, INSTRUCTION_TEXTURE);
+    Polygon2D object2({{0, 0}, {1, 0}, {1, 1}, {0, 1}}, {-1.9, 6.7}, 1, FROZEN_TEXTURE);
+    Polygon2D object3({{1, 1}, {2, 2}, {1, 2}, {1, 2}}, {-0.79, 3.95});
+    Polygon2D object4({{0, 0}, {.1, 0}, {.1, .1}, {0, .1}}, {1.92, 6.18});
+    Polygon2D object5({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {1.84, 9});
+    Polygon2D object6({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {1.11, 7}, 0);
+    Polygon2D object7({{0, 0}, {.1, 0}, {.1, .1}, {0, .1}}, {1, 2}, 0);
 
-    Poligon2D object8({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {3.6, 4.6}, 0.9);
-    Poligon2D object9({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {1.5, 4.2}, 0.9);
-    Poligon2D object10({{0, 0}, {.1, 0}, {.1, .1}, {0, .1}}, {2.5, 5.2}, 0.9);
+    Polygon2D object8({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {3.6, 4.6}, 0.9);
+    Polygon2D object9({{0, 0}, {.3, 0}, {.3, .3}, {0, .3}}, {1.5, 4.2}, 0.9);
+    Polygon2D object10({{0, 0}, {.1, 0}, {.1, .1}, {0, .1}}, {2.5, 5.2}, 0.9);
 
     //object2.makeMirror();
     object3.makeMirror();

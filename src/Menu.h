@@ -6,7 +6,7 @@
 #include <iostream>
 #include <chrono>
 #include "settings.h"
-#include "Poligon2D.h"
+#include "Polygon2D.h"
 #include "Circle2D.h"
 #include "Object2D.h"
 #include "Camera.h"
