@@ -41,7 +41,8 @@ public:
     const double x() { return p_position.x; }
     const double y() { return p_position.y; }
 
-    void setPosition(Point2D position) { p_position = position; };
+    const Point2D& getPosition() const { return p_position; }
+    void setPosition(Point2D position) { p_position = position; }
 
     void shift(Point2D vector) { p_position += vector; }
 

@@ -78,7 +78,7 @@ void Camera::updateDistances(const World& world) {
         // find distance to near object in that direction
         double direction = d_direction + ((double)i/DISTANCES_SEGMENTS - 0.5)*d_fieldOfView;
 
-        pair<Point2D, Point2D> segment1 = {{x(), y()}, {x() + d_depth*cos(direction), y() + d_depth*sin(direction)}};
+        pair<Point2D, Point2D> segment1 = { getPosition(), getPosition() + Point2D(d_depth * cos(direction), d_depth * sin(direction)) };
 
         std::vector<RayCastStructure> v_rayCastStructure;
 
@@ -139,7 +139,7 @@ std::pair<std::string, double> Camera::cameraRayCheck(RayCastStructure &structur
 }
 
 void Camera::fire() {
-    pair<Point2D, Point2D> segment1 = {{x(), y()}, {x() + d_depth*cos(d_direction), y() + d_depth*sin(d_direction)}};
+    pair<Point2D, Point2D> segment1 = { getPosition(), getPosition() + Point2D(d_depth * cos(d_direction), d_depth * sin(d_direction)) };
     std::vector<RayCastStructure> v_rayCastStructure;
     objectsRayCrossed(segment1, v_rayCastStructure, getName());
 
