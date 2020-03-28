@@ -6,8 +6,9 @@
 
 int sign(double number) { return number >= 0 ? 1 : -1; }
 
-double cross(Point2D p1, Point2D p2) {
-    return p1.x*p2.y - p1.y*p2.x;
+double cross(const Point2D& lhs, const Point2D& rhs)
+{
+	return lhs.x * rhs.y - lhs.y * rhs.x;
 }
 
 bool Object2D::segments_crossing(std::pair<Point2D, Point2D> segment1, std::pair<Point2D, Point2D> segment2, Point2D& point)
