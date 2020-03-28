@@ -31,7 +31,7 @@ struct Point2D {
 		return *this;
 	}
 
-	double   operator*(const Point2D& point2D) { return x*point2D.x + y*point2D.y; }
+	double operator*(const Point2D& point2D) const { return x * point2D.x + y * point2D.y; }
 
     Point2D normalize() { return Point2D{this->x/abs(), this->y/abs()};}
     double abs() {return sqrt(x*x + y*y); }
