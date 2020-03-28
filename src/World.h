@@ -6,18 +6,18 @@
 
 class World : virtual public Idrawable {
 private:
-    mutable std::map<std::string, Object2D&> map_objects;
+    std::map<std::string, Object2D&> map_objects;
 
     double d_length = 0;
     double d_width = 0;
 
     sf::Texture T_sky_texture;
     sf::Texture T_floor_texture;
-    mutable bool sky_texture_loaded = false;
-    mutable bool floor_texture_loaded = false;
-    mutable std::string s_sky_texture;
-    mutable std::string s_floor_texture;
-    sf::Sprite S_floor;
+    bool sky_texture_loaded = false;
+    bool floor_texture_loaded = false;
+    std::string s_sky_texture;
+    std::string s_floor_texture;
+	sf::Sprite S_floor;
 
 public:
     World(double length, double width, std::string sky_texture = SKY_TEXTURE, std::string floor_texture = FLOOR_TEXTURE) : d_length(length), d_width(width), s_sky_texture(sky_texture), s_floor_texture(floor_texture)
