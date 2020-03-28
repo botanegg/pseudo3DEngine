@@ -17,7 +17,12 @@ struct Point2D {
 		return *this;
 	}
 
-	Point2D operator-(const Point2D& point2D) const { return {this->x - point2D.x, this->y - point2D.y}; }
+	Point2D& operator-=(const Point2D& rhs)
+	{
+		this->x -= rhs.x;
+		this->y -= rhs.y;
+		return *this;
+	}
 
 	Point2D& operator=(const Point2D& point2D) { this->x = point2D.x; this->y = point2D.y; return *this; }
 
@@ -31,6 +36,12 @@ struct Point2D {
 inline Point2D operator+(Point2D lhs, const Point2D& rhs)
 {
 	lhs += rhs;
+	return lhs;
+}
+
+inline Point2D operator-(Point2D lhs, const Point2D& rhs)
+{
+	lhs -= rhs;
 	return lhs;
 }
 
