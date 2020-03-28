@@ -28,8 +28,8 @@ struct Point2D {
 
 	double operator*(const Point2D& point2D) const { return x * point2D.x + y * point2D.y; }
 
-	Point2D normalize() { return Point2D{this->x / abs(), this->y / abs()}; }
-	double abs() { return std::sqrt(x * x + y * y); }
+	Point2D normalize() const { return Point2D{this->x / abs(), this->y / abs()}; }
+	double abs() const { return std::sqrt(x * x + y * y); }
 };
 
 inline Point2D operator+(Point2D lhs, const Point2D& rhs)
