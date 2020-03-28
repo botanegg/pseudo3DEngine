@@ -44,6 +44,7 @@ int main(int argc, char** argv)
 
 	sf::Uint32 windowStyle = fullscreen ? sf::Style::Fullscreen : sf::Style::Default;
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pseudo3DEngine", windowStyle);
+	window.setFramerateLimit(60); //todo(botanegg) introduce setting variable to limiting framelimit
 
     World world(100, 100);
     Camera camera(world, {1.5, 1.5});
