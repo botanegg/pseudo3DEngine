@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 18.01.2020.
-//
-
-#ifndef PSEUDO3DENGINE_SETTINGS_H
-#define PSEUDO3DENGINE_SETTINGS_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 
@@ -105,5 +100,3 @@
 
 #define GUN_SHOT_SOUND "sounds/gunShot.ogg"
 #define WALK_SOUND "sounds/walkSound.ogg"
-
-#endif //PSEUDO3DENGINE_SETTINGS_H

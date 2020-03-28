@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 22.01.2020.
-//
-
-#ifndef PSEUDO3DENGINE_MENU_H
-#define PSEUDO3DENGINE_MENU_H
+#pragma once
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -83,6 +78,3 @@ public:
     bool isTextures() { return b_textures; }
     void switchTextures() { b_textures = !b_textures; }
 };
-
-
-#endif //PSEUDO3DENGINE_MENU_H

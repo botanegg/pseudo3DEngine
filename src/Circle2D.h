@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 21.01.2020.
-//
-
-#ifndef PSEUDO3DENGINE_CIRCLE2D_H
-#define PSEUDO3DENGINE_CIRCLE2D_H
+#pragma once
 
 #include "Object2D.h"
 #include "settings.h"
@@ -21,6 +16,3 @@ public:
         }
     }
 };
-
-
-#endif //PSEUDO3DENGINE_CIRCLE2D_H

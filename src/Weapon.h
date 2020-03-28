@@ -1,9 +1,5 @@
-//
-// Created by ivan- on 07.02.2020.
-//
+#pragma once
 
-#ifndef PSEUDO3DENGINE_WEAPON_H
-#define PSEUDO3DENGINE_WEAPON_H
 #include <SFML/Audio.hpp>
 #include <chrono>
 #include "settings.h"
@@ -52,5 +48,3 @@ public:
 
     int damage() const { return i_damage; }
 };
-
-#endif //PSEUDO3DENGINE_WEAPON_H

@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 18.01.2020.
-//
-
-#ifndef PSEUDO3DENGINE_CAMERA_H
-#define PSEUDO3DENGINE_CAMERA_H
+#pragma once
 
 #include <algorithm>
 #include "Object2D.h"
@@ -145,6 +140,3 @@ public:
     std::string lastKill() { return s_lastKill;}
     void cleanLastKill(){s_lastKill = "";}
 };
-
-
-#endif //PSEUDO3DENGINE_CAMERA_H

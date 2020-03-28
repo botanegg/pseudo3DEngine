@@ -1,9 +1,5 @@
-//
-// Created by ivan- on 02.02.2020.
-//
+#pragma once
 
-#ifndef PSEUDO3DENGINE_WINDOW_H
-#define PSEUDO3DENGINE_WINDOW_H
 #include <SFML/Graphics.hpp>
 #include "settings.h"
 
@@ -61,6 +57,3 @@ public:
         }
     }
 };
-
-
-#endif //PSEUDO3DENGINE_WINDOW_H

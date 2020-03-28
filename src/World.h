@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 18.01.2020.
-//
-
-#ifndef PSEUDO3DENGINE_WORLD_H
-#define PSEUDO3DENGINE_WORLD_H
+#pragma once
 
 #include "Object2D.h"
 #include <string>
@@ -79,6 +74,3 @@ public:
         return T_floor_texture;
     }
 };
-
-
-#endif //PSEUDO3DENGINE_WORLD_H

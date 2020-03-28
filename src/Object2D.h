@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 18.01.2020.
-//
-
-#ifndef PSEUDO3DENGINE_OBJECT2D_H
-#define PSEUDO3DENGINE_OBJECT2D_H
+#pragma once
 
 #include <utility>
 #include <vector>
@@ -95,6 +90,3 @@ public:
         v_points2D = std::move(points2D);
     }
 };
-
-
-#endif //PSEUDO3DENGINE_OBJECT2D_H

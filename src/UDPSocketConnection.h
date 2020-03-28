@@ -1,9 +1,4 @@
-//
-// Created by ivan- on 13.02.2020.
-//
-
-#ifndef PSEUDO3DENGINE_UDPSOCKETCONNECTION_H
-#define PSEUDO3DENGINE_UDPSOCKETCONNECTION_H
+#pragma once
 
 #include <iostream>
 #include <SFML/Network.hpp>
@@ -84,6 +79,3 @@ public:
         }
     }
 };
-
-
-#endif //PSEUDO3DENGINE_UDPSOCKETCONNECTION_H
