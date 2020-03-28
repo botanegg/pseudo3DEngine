@@ -16,7 +16,7 @@ struct RGB {
 struct RayCastStructure {
     double distance;    // How far is this texture
     double progress;    // progress defines the point of texture we should load
-    std::string object; // particular object. We need this to show particular texture.
+    size_t objectId;    // particular object. We need this to show particular texture.
     double height;      // objects has different height
 
     std::vector<RayCastStructure> v_mirrorRayCast; // When we have mirror, we should know about all objects we can see
@@ -59,19 +59,20 @@ private:
     sf::SoundBuffer walkSoundBuffer;
     sf::Sound walkSound;
 
-    std::string s_lastKill;
+    size_t s_lastKill;
 
-    void objectsRayCrossed(std::pair<Point2D, Point2D> ray, std::vector<RayCastStructure>& v_rayCastStruct, const std::string& name, int reflections = 0);
+    void objectsRayCrossed(std::pair<Point2D, Point2D> ray, std::vector<RayCastStructure>& v_rayCastStruct, size_t id, int reflections = 0);
     void drawVerticalStrip(sf::RenderWindow& window, const RayCastStructure& obj, int shift, int f);
     void recursiveDrawing(sf::RenderWindow& window, const std::vector<RayCastStructure>& v_RayCastStructure, int shift, int rec = 1);
+
     static void recursiveIncreaseDistance(std::vector<RayCastStructure>& v_RayCastStructure, double distance);
 
     static double scalarWithNormal(Point2D edge, Point2D vector);
 
     void fire();
-    std::pair<std::string, double> cameraRayCheck(RayCastStructure& structure);
+    std::pair<size_t, double> cameraRayCheck(RayCastStructure& structure);
 
-    std::map<std::string, Camera&> m_playersOnTheScreen;
+    std::map<size_t, Camera&> m_playersOnTheScreen;
 
     static void drawHealth(sf::RenderWindow& window, int x, int y, int width, int health);
 public:
@@ -109,7 +110,6 @@ public:
         i_selectedWeapon = camera.i_selectedWeapon;
         walkSoundBuffer = camera.walkSoundBuffer;
         walkSound = camera.walkSound;
-        setName(camera.getName());
     }
 
     void updateDistances(const World& world);
@@ -137,6 +137,6 @@ public:
     void setHealth(double h) {i_health = h; }
 
     int type() override { return 1; }
-    std::string lastKill() { return s_lastKill;}
-    void cleanLastKill(){s_lastKill = "";}
+    size_t getLastKillId() const { return s_lastKill; }
+    void cleanLastKillId() { s_lastKill = std::numeric_limits<size_t>::max(); }
 };

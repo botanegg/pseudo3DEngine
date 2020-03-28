@@ -16,34 +16,36 @@ void Camera::recursiveIncreaseDistance(std::vector<RayCastStructure>& v_RayCastS
     }
 }
 
-void Camera::objectsRayCrossed(pair<Point2D, Point2D> ray, std::vector<RayCastStructure> &v_rayCastStruct, const std::string& name, int reflections) {
-    std::string obj;
+void Camera::objectsRayCrossed(pair<Point2D, Point2D> ray, std::vector<RayCastStructure> &v_rayCastStruct, size_t id, int reflections) {
     double len = 0;
     double progress = 0;
-    for(auto object : W_world.objects()) {
+    size_t obj = std::numeric_limits<size_t>::max();
+
+    for(auto objectPointer : W_world.getObjects()) {
+        Object2D& object = *objectPointer;
         Point2D crossPoint = {0, 0};
-        obj = "";
+        obj = std::numeric_limits<size_t>::max();
         Point2D nearCross = ray.second;
         std::vector<RayCastStructure> v_reflectedRayCastStructure;
-        if(object.first == name || object.second.nodes().size() < 2)
+        if(object.getId() == id || object.nodes().size() < 2)
             continue;
         progress = 0;
-        pair<Point2D, Point2D> segment2 = {object.second.position() + object.second.nodes().back(), object.second.position() + object.second.nodes().front() };
-        for(int k = 0; k < object.second.nodes().size(); k++) {
+        pair<Point2D, Point2D> segment2 = {object.position() + object.nodes().back(), object.position() + object.nodes().front() };
+        for(int k = 0; k < object.nodes().size(); k++) {
             if(segments_crossing(ray, segment2, crossPoint)) {
                 if ((nearCross - ray.first).abs() > (crossPoint - ray.first).abs()) {
                     nearCross = crossPoint;
-                    obj = object.second.getName();
+                    obj = object.getId();
                     len = 0*progress + (segment2.second - nearCross).abs();
                     // For collision detection
-                    if(name == getName() && COLLISION_AREA >= (nearCross - position()).abs()) {
+                    if(id == getId() && COLLISION_AREA >= (nearCross - position()).abs()) {
                         CollisionInformation newCollision;
                         newCollision.distance = (nearCross - position()).abs();
                         newCollision.edge = segment2;
                         newCollision.collisionPoint = nearCross;
                         allCollisions.push_back(newCollision);
                     }
-                    if(object.second.isMirror() && scalarWithNormal(segment2.second - segment2.first, ray.second - ray.first) < 0) {
+                    if(object.isMirror() && scalarWithNormal(segment2.second - segment2.first, ray.second - ray.first) < 0) {
                         Point2D edgeVector = segment2.second - segment2.first;
                         Point2D rayVector = ray.second - ray.first;
                         double twistAngle = 2*acos((edgeVector.x*rayVector.x + edgeVector.y*rayVector.y)/(edgeVector.abs()*rayVector.abs()));
@@ -51,7 +53,7 @@ void Camera::objectsRayCrossed(pair<Point2D, Point2D> ray, std::vector<RayCastSt
                         pair<Point2D, Point2D> newRay = {crossPoint, crossPoint + twistedRayVector};
 
                         if(reflections < 40) {
-                            objectsRayCrossed(newRay, v_reflectedRayCastStructure, object.first,reflections + 1);
+                            objectsRayCrossed(newRay, v_reflectedRayCastStructure, object.getId(),reflections + 1);
                             recursiveIncreaseDistance(v_reflectedRayCastStructure, (ray.first - nearCross).abs());
                         }
                     }
@@ -59,11 +61,12 @@ void Camera::objectsRayCrossed(pair<Point2D, Point2D> ray, std::vector<RayCastSt
             } else {
                 progress += (segment2.second - segment2.first).abs();
             }
-            if(k+1 < object.second.nodes().size())
-                segment2 = { object.second.position() + object.second.nodes()[k], object.second.position() + object.second.nodes()[k+1] };
+            if(k+1 < object.nodes().size())
+                segment2 = { object.position() + object.nodes()[k], object.position() + object.nodes()[k+1] };
         }
-        if(!obj.empty())
-            v_rayCastStruct.push_back({(ray.first-nearCross).abs(), len, obj, object.second.height(), v_reflectedRayCastStructure});
+
+        if(obj != std::numeric_limits<size_t>::max())
+            v_rayCastStruct.push_back({(ray.first-nearCross).abs(), len, obj, object.height(), v_reflectedRayCastStructure});
     }
     sort(v_rayCastStruct.begin(), v_rayCastStruct.end(), [](const RayCastStructure& lh, const RayCastStructure& rh) { return lh.distance > rh.distance; });
 }
@@ -82,16 +85,17 @@ void Camera::updateDistances(const World& world) {
 
         std::vector<RayCastStructure> v_rayCastStructure;
 
-        objectsRayCrossed(segment1, v_rayCastStructure, getName());
+        objectsRayCrossed(segment1, v_rayCastStructure, getId());
 
         for(const auto& rcs : v_rayCastStructure)
-            if((m_playersOnTheScreen.count(rcs.object) == 0) && (W_world[rcs.object].type() == 1))
-                m_playersOnTheScreen.insert({rcs.object, dynamic_cast<Camera&>(W_world[rcs.object])});
+            if((m_playersOnTheScreen.count(rcs.objectId) == 0) && (W_world[rcs.objectId]->type() == 1))
+                m_playersOnTheScreen.insert({rcs.objectId, dynamic_cast<Camera&>(*W_world[rcs.objectId])});
 
         if(!v_rayCastStructure.empty())
             v_distances.push_back(v_rayCastStructure);
         else
-            v_distances.push_back({{d_depth, 0, "", 1}});
+            v_distances.push_back({{d_depth, 0, std::numeric_limits<size_t>::max(), 1}});
+
     }
 }
 
@@ -126,14 +130,14 @@ void Camera::draw(sf::RenderWindow& window) {
     window.draw(circle);
 }
 
-std::pair<std::string, double> Camera::cameraRayCheck(RayCastStructure &structure) {
-    std::pair<std::string, double> result = {"", 1};
-    if(W_world[structure.object].type() == 1) {
-        result.first = structure.object;
+std::pair<size_t, double> Camera::cameraRayCheck(RayCastStructure& structure)
+{
+    std::pair<size_t, double> result = { std::numeric_limits<size_t>::max(), 1 };
+    if (W_world[structure.objectId]->type() == 1) {
+        result.first = structure.objectId;
         result.second = structure.distance;
-    }
-    else if(!structure.v_mirrorRayCast.empty()) {
-        return cameraRayCheck(structure.v_mirrorRayCast[structure.v_mirrorRayCast.size()-1]);
+    } else if (!structure.v_mirrorRayCast.empty()) {
+        return cameraRayCheck(structure.v_mirrorRayCast[structure.v_mirrorRayCast.size() - 1]);
     }
     return result;
 }
@@ -141,22 +145,22 @@ std::pair<std::string, double> Camera::cameraRayCheck(RayCastStructure &structur
 void Camera::fire() {
     pair<Point2D, Point2D> segment1 = { getPosition(), getPosition() + Point2D(d_depth * cos(d_direction), d_depth * sin(d_direction)) };
     std::vector<RayCastStructure> v_rayCastStructure;
-    objectsRayCrossed(segment1, v_rayCastStructure, getName());
+    objectsRayCrossed(segment1, v_rayCastStructure, getId());
 
     if(!v_rayCastStructure.empty()) {
-        std::pair<std::string, double> hitted = cameraRayCheck(v_rayCastStructure[v_rayCastStructure.size()-1]);
+        std::pair<size_t, double> hitted = cameraRayCheck(v_rayCastStructure[v_rayCastStructure.size()-1]);
         //W_world.removeObject2D(hitted.first);
-        if(hitted.first == "") return;
+        if(hitted.first == std::numeric_limits<size_t>::max()) return;
 
-        dynamic_cast<Camera&>(W_world[hitted.first]).updateDistances(W_world);
+        dynamic_cast<Camera&>(*W_world[hitted.first]).updateDistances(W_world);
         double dir = 2*PI * rand() / RAND_MAX;
-        dynamic_cast<Camera&>(W_world[hitted.first]).shiftPrecise({0.05*cos(dir), 0.05*sin(dir)});
+        dynamic_cast<Camera&>(*W_world[hitted.first]).shiftPrecise({0.05*cos(dir), 0.05*sin(dir)});
 
-        if(dynamic_cast<Camera&>(W_world[hitted.first]).reduceHealth(static_cast<int>(v_weapons[i_selectedWeapon].damage() / hitted.second))) {
+        if(dynamic_cast<Camera&>(*W_world[hitted.first]).reduceHealth(static_cast<int>(v_weapons[i_selectedWeapon].damage() / hitted.second))) {
             //W_world.removeObject2D(hitted.first);
-            W_world[hitted.first].setPosition({2.5, 0});
+            W_world[hitted.first]->setPosition({2.5, 0});
             s_lastKill = hitted.first;
-            dynamic_cast<Camera&>(W_world[hitted.first]).setHealth(100);
+            dynamic_cast<Camera&>(*W_world[hitted.first]).setHealth(100);
         }
     }
 }
@@ -258,15 +262,15 @@ void Camera::drawVerticalStrip(sf::RenderWindow &window, const RayCastStructure&
 
     double scaleFactor = (double) (h2 - h1) / SCREEN_HEIGHT;
     sf::Sprite sprite;
-    if (obj.object != "" && b_textures) {
+    if (obj.objectId != std::numeric_limits<size_t>::max() && b_textures) {
         int left = obj.progress * SCREEN_WIDTH;
         int top = 0;
-        if(W_world[obj.object].isMirror()) { // In case of mirror
+        if(W_world[obj.objectId]->isMirror()) { // In case of mirror
             sprite.setTexture(W_world.skyTexture());
             left = (d_direction/10) * SCREEN_WIDTH;
             top = sprite.getTextureRect().height/2-SCREEN_HEIGHT/2;
         } else {
-            sprite.setTexture(W_world[obj.object].loadTexture());
+            sprite.setTexture(W_world[obj.objectId]->loadTexture());
         }
         sprite.setTextureRect(sf::IntRect(left, top, SCREEN_WIDTH / DISTANCES_SEGMENTS, SCREEN_HEIGHT));
         sprite.setPosition(sf::Vector2f(shift * SCREEN_WIDTH / DISTANCES_SEGMENTS, h1)); // абсолютная позиция

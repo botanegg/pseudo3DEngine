@@ -10,12 +10,12 @@
 
 class Object2D : virtual public Idrawable {
 protected:
+    size_t oid;
     std::vector<Point2D> v_points2D;
 
     Point2D p_position;
     Point2D p_velocity;
 
-    std::string s_name;
     double d_height = 1;
     bool b_isMirror = false;
 
@@ -30,7 +30,6 @@ public:
         v_points2D = object2D.v_points2D;
         p_position = object2D.p_position;
         p_velocity = object2D.p_velocity;
-        s_name = object2D.s_name;
         d_height = object2D.d_height;
         b_isMirror = object2D.b_isMirror;
         T_texture = object2D.T_texture;
@@ -50,8 +49,8 @@ public:
 
     static bool segments_crossing(std::pair<Point2D, Point2D> segment1, std::pair<Point2D, Point2D> segment2, Point2D& point);
 
-    void setName(std::string name) {s_name = name;}
-    std::string getName() const { return s_name; }
+    void setId(size_t id) { oid = id; }
+    size_t getId() const { return oid; }
 
     Point2D position() const { return p_position; }
 

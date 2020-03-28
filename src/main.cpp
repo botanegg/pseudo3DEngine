@@ -56,8 +56,8 @@ int main(int argc, char** argv)
         else
             walls[i].setPoints2D({columnPositions[i], columnPositions[0]});
 
-        world.addObject2D(walls[i], "wall" + std::to_string(i+1));
-        world.addObject2D(columns[i], "col" + std::to_string(i+1));
+        world.addObject2D(walls[i]);
+        world.addObject2D(columns[i]);
     }
 
     UDPSocketConnection udpSocketConnection(world, camera);
@@ -81,19 +81,19 @@ int main(int argc, char** argv)
     object3.makeMirror();
 
     //cameraw
-    world.addObject2D(camera, camera.getName());
+    world.addObject2D(camera);
 
-    world.addObject2D(object1, "object1");
-    world.addObject2D(object2, "object2");
-    world.addObject2D(object3, "object3");
-    world.addObject2D(object4, "object4");
-    world.addObject2D(object5, "object5");
-    world.addObject2D(object6, "object6");
-    world.addObject2D(object7, "object7");
+    world.addObject2D(object1);
+    world.addObject2D(object2);
+    world.addObject2D(object3);
+    world.addObject2D(object4);
+    world.addObject2D(object5);
+    world.addObject2D(object6);
+    world.addObject2D(object7);
 
-    world.addObject2D(object8, "object8");
-    world.addObject2D(object9, "object9");
-    world.addObject2D(object10, "object10");
+    world.addObject2D(object8);
+    world.addObject2D(object9);
+    world.addObject2D(object10);
 
     Menu menu;
 

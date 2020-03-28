@@ -6,7 +6,9 @@
 
 class World : virtual public Idrawable {
 private:
-    std::map<std::string, Object2D&> map_objects;
+    //std::map<std::string, Object2D&> map_objects;
+    std::vector<Object2D*> objects;
+    size_t nextOid = 0;
 
     double d_length = 0;
     double d_width = 0;
@@ -29,22 +31,31 @@ public:
         return S_floor;
     }
 
-    bool addObject2D(Object2D&  object, std::string name) {
-        object.setName(name);
-        return map_objects.insert({name, object}).second;
-    }
-    Object2D& findObject2D(std::string name) { return map_objects.at(name); }
-    Object2D& findObject2D(std::string name) const { return map_objects.at(name); }
-    bool isExist(std::string name) const {return map_objects.count(name) != 0; }
-
-    bool removeObject2D(std::string name) { return map_objects.erase(name) > 0; }
-
-    Object2D& operator[](std::string name) {
-        return findObject2D(name);
+    //Add object and return objectId
+    size_t addObject2D(Object2D& object)
+    {
+        object.setId(nextOid);
+        objects.push_back(&object);
+        return nextOid++;
     }
 
-    Object2D& operator[](std::string name) const {
-        return findObject2D(name);
+    Object2D* findObject2D(size_t id) const
+    {
+        auto res = std::lower_bound(objects.begin(), objects.end(), id, [](const Object2D* obj, size_t id) {
+            return obj->getId() < id;
+        });
+        if (res != objects.end()) {
+            return *res;
+        }
+        return nullptr;
+    }
+
+    bool isExist(size_t id) const { return findObject2D(id) != nullptr; }
+
+    //bool removeObject2D(std::string name) { return map_objects.erase(name) > 0; }
+
+    Object2D* operator[](size_t id) const {
+        return findObject2D(id);
     }
 
     double width() const { return d_width; }
@@ -52,7 +63,7 @@ public:
 
     void draw(sf::RenderWindow& window) override;
 
-    const std::map<std::string, Object2D&>& objects() const { return map_objects; }
+    const std::vector<Object2D*> getObjects() const {return objects;};
 
     const sf::Texture& skyTexture() {
         if(sky_texture_loaded) return T_sky_texture;

@@ -19,7 +19,7 @@ void World::draw(sf::RenderWindow &window) {
     background.setPosition(0, 0);
     window.draw(background);
 
-    for(auto object : map_objects) {
-        object.second.draw(window);
+    for(auto object : objects) {
+        object->draw(window);
     }
 }
