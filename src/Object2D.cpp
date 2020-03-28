@@ -6,36 +6,31 @@
 
 int sign(double number) { return number >= 0 ? 1 : -1; }
 
-double cross(const Point2D& lhs, const Point2D& rhs)
-{
-	return lhs.x * rhs.y - lhs.y * rhs.x;
-}
 
 bool Object2D::segments_crossing(std::pair<Point2D, Point2D> segment1, std::pair<Point2D, Point2D> segment2, Point2D& point)
 {
-    // {v11 = segment1.first, v12 = segment1.second}, {v21 = segment2.first, v22 = segment2.second}
-  Point2D cut1 = segment1.second - segment1.first;
-  Point2D cut2 = segment2.second - segment2.first;
-  double prod1;
-  double prod2;
+	// {v11 = segment1.first, v12 = segment1.second}, {v21 = segment2.first, v22 = segment2.second}
+	Point2D cut1 = segment1.second - segment1.first;
+	Point2D cut2 = segment2.second - segment2.first;
+	double prod1 = cut1.cross(segment2.first - segment1.first);
+	double prod2 = cut1.cross(segment2.second - segment1.first);
 
-  prod1 = cross(cut1, (segment2.first-segment1.first));
-  prod2 = cross(cut1, (segment2.second-segment1.first));
+	if (sign(prod1) == sign(prod2) || (prod1 == 0) || (prod2 == 0)) { // Отсекаем также и пограничные случаи
+		return false;
+	}
 
-   if(sign(prod1) == sign(prod2) || (prod1 == 0) || (prod2 == 0)) // Отсекаем также и пограничные случаи
-     return false;
+	prod1 = cut2.cross(segment1.first - segment2.first);
+	prod2 = cut2.cross(segment1.second - segment2.first);
 
-   prod1 = cross(cut2, (segment1.first - segment2.first));
-   prod2 = cross(cut2, (segment1.second - segment2.first));
+	if (sign(prod1) == sign(prod2) || (prod1 == 0) || (prod2 == 0)) { // Отсекаем также и пограничные случаи
+		return false;
+	}
 
-   if(sign(prod1) == sign(prod2) || (prod1 == 0) || (prod2 == 0)) // Отсекаем также и пограничные случаи
-     return false;
+	point.x = segment1.first.x + cut1.x * std::abs(prod1) / std::abs(prod2 - prod1);
+	point.y = segment1.first.y + cut1.y * std::abs(prod1) / std::abs(prod2 - prod1);
 
-   point.x = segment1.first.x + cut1.x*std::abs(prod1)/std::abs(prod2-prod1);
-   point.y = segment1.first.y + cut1.y*std::abs(prod1)/std::abs(prod2-prod1);
-
-   return true;
- }
+	return true;
+}
 
 void Object2D::draw(sf::RenderWindow& window) {
     sf::ConvexShape polygon;
