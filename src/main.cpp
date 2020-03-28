@@ -17,6 +17,14 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
+	//todo(botanegg) Use here argc/argv parser. ???boost::program_options???
+	bool fullscreen = false;
+	if (argc == 2) {
+		if ("--fullscreen"s == argv[1]) {
+			fullscreen = true;
+		}
+	}
+
     sf::Music music;
     music.openFromFile("sounds/unrealSuperHero3.ogg");
     music.setVolume(10);
@@ -34,7 +42,8 @@ int main(int argc, char** argv)
     vector<Circle2D> columns(12);
     vector<Poligon2D> walls (12);
 
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pseudo3DEngine");
+	sf::Uint32 windowStyle = fullscreen ? sf::Style::Fullscreen : sf::Style::Default;
+	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pseudo3DEngine", windowStyle);
 
     World world(100, 100);
     Camera camera(world, {1.5, 1.5});
@@ -132,6 +141,7 @@ int main(int argc, char** argv)
             }
         }
         window.display();   // отображение
+
     }
 
     return 0;
