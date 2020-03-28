@@ -33,6 +33,8 @@ set(SOURCE_FILES
 		src/Camera.cpp
 		src/Camera.h
 		src/Idrawable.h
+		src/Point2D.cpp
+		src/Point2D.h
 		src/Poligon2D.cpp
 		src/Poligon2D.h
 		src/Circle2D.cpp
