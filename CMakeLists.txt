@@ -24,25 +24,25 @@ conan_cmake_run(
 		missing)
 
 set(SOURCE_FILES
-		main.cpp
-		settings.h
-		World.cpp
-		World.h
-		Object2D.cpp
-		Object2D.h
-		Camera.cpp
-		Camera.h
-		Idrawable.h
-		Poligon2D.cpp
-		Poligon2D.h
-		Circle2D.cpp
-		Circle2D.h
-		Menu.cpp
-		Menu.h
-		Weapon.cpp
-		Weapon.h
-		UDPSocketConnection.cpp
-		UDPSocketConnection.h
+		src/main.cpp
+		src/settings.h
+		src/World.cpp
+		src/World.h
+		src/Object2D.cpp
+		src/Object2D.h
+		src/Camera.cpp
+		src/Camera.h
+		src/Idrawable.h
+		src/Poligon2D.cpp
+		src/Poligon2D.h
+		src/Circle2D.cpp
+		src/Circle2D.h
+		src/Menu.cpp
+		src/Menu.h
+		src/Weapon.cpp
+		src/Weapon.h
+		src/UDPSocketConnection.cpp
+		src/UDPSocketConnection.h
 		)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
