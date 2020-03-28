@@ -7,7 +7,7 @@
 
 class Weapon : virtual public Idrawable {
 private:
-    double d_elapsedTime;
+    double d_elapsedTime = 0;
 
     sf::Texture T_weapon_arm;
     sf::Sprite S_weapon_arm;
