@@ -15,7 +15,7 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char** argv)
 {
     sf::Music music;
     music.openFromFile("sounds/unrealSuperHero3.ogg");
