@@ -1,0 +1,11 @@
+version: 1.0.{build}
+
+platform:
+  - x64
+
+build_script:
+  - cmd: mkdir build
+  - cmd: cd build
+  - cmd: cmake ../  -G "Visual Studio 14 2015 Win64"
+  - cmd: cmake --build . --config Release
+
